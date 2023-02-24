@@ -73,16 +73,22 @@ public class BallController : SingletonBehaviour<BallController>
         }
     }
 
-    public void CreateBall(int _ballCount, Vector3 _position)
+    public void CreateBall(int _ballCount, Ball _ball)
     {
-        for (int i = 0; i < ballPool.Count; i++)
+        Vector3 position = _ball.transform.position;
+        Vector3 velocity = _ball.GetComponent<Rigidbody>().velocity;
+        _ball.DeActivate();
+
+        for (int i = 0; i < _ballCount; i++)
         {
-            if(ballPooling.Count == 0) BallPooling();
+            float setValue = (i % 2) * Mathf.Pow(-1, i);
+            Vector3 newPosition = new Vector3(position.x + setValue/10f, position.y, position.z);
+
+            if (ballPooling.Count == 0) BallPooling();
             if (ballPooling.Count > 0)
             {
-                ballPooling.Dequeue().Activate(_position);
+                ballPooling.Dequeue().Activate(newPosition, velocity, setValue);
             }
-            if (--_ballCount < 0) return;
         }
     }
 }

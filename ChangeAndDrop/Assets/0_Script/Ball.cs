@@ -25,20 +25,15 @@ public class Ball : MonoBehaviour
 
     void OnEnable()
     {
-        float randomVelocity = Random.Range(-2f, 2f);
-        Vector3 nowSpeed = rigidbody.velocity;
-        rigidbody.velocity = new Vector3(nowSpeed.x + randomVelocity, nowSpeed.y + randomVelocity, nowSpeed.z);
-
-        StartCoroutine(ColliderSetting());
+        this.gameObject.layer = 8;
     }
 
-    IEnumerator ColliderSetting()
+    void OnCollisionEnter(Collision collision)
     {
-        // 레이어 구분하고
-        // 생성되는 수에 따라 방향 속도 다르게 조절하기
-        maxVelocityY = 0;
-        yield return new WaitForSeconds(1f);
-        maxVelocityY = 1f;
+        if(collision.gameObject.layer == 0)
+        {
+            this.gameObject.layer = 7;
+        }
     }
 
     void Update()
@@ -67,10 +62,11 @@ public class Ball : MonoBehaviour
         }
     }
 
-    public void Activate(Vector3 _position)
+    public void Activate(Vector3 _position, Vector3 _nowVelocity ,float _setVelocity)
     {
         this.transform.position = _position;
         this.gameObject.SetActive(true);
+        rigidbody.velocity = new Vector3(_nowVelocity.x + _setVelocity, _nowVelocity.y, _nowVelocity.z);
         BallController.Instance.BallCount++;
     }
 

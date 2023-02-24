@@ -32,7 +32,7 @@ public class Trap : MonoBehaviour
     {
         if (other.tag.Equals("Ball") && trapColor != BallController.Instance.BallColor)
         {
-            other.gameObject.SetActive(false);
+            other.GetComponent<Ball>().DeActivate();
         }
     }
 
@@ -40,8 +40,7 @@ public class Trap : MonoBehaviour
     {
         if(other.tag.Equals("Ball"))
         {
-            other.gameObject.SetActive(false);
-            BallController.Instance.CreateBall(bonusValue, other.transform.position);
+            BallController.Instance.CreateBall(bonusValue, other.GetComponent<Ball>());
         }
     }
 }
