@@ -14,7 +14,7 @@ public class TrapController : SingletonBehaviour<TrapController>
 
     void initialize()
     {
-        trapMaterials[0].color = GameData.BlueColor;
-        trapMaterials[1].color = GameData.OrangeColor;
+        trapMaterials[0].color = GameData.BlueColorTransparent;
+        trapMaterials[1].color = GameData.OrangeColorTransparent;
     }
 }

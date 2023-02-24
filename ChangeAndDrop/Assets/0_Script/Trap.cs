@@ -4,28 +4,33 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
-    [SerializeField] COLORSTATE trapColor;
+    [SerializeField] COLORSTATE trapColor; // TODO : 데이터 빼기
+    public COLORSTATE TrapColor
+    {
+        get { return trapColor; }
+        set 
+        {
+            trapColor = value;
+            this.GetComponent<MeshRenderer>().material = TrapController.Instance.TrapMaterials[(int)trapColor];
+        } 
+    }
 
-    MeshRenderer meshRenderer;
+    [SerializeField] int bonusValue; // TODO : 데이터 빼기
 
     void Start()
     {
-        meshRenderer = this.GetComponent<MeshRenderer>();
         Initialize();
     }
 
     void Initialize()
     {
-        meshRenderer.material = TrapController.Instance.TrapMaterials[(int)trapColor];
+        this.GetComponent<MeshRenderer>().material = TrapController.Instance.TrapMaterials[(int)trapColor];  
+        // TODO : TrapColor를 데이터에서 받아오기
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if(trapColor == BallController.Instance.BallColor)
-        {
-
-        }
-        else
+        if(trapColor != BallController.Instance.BallColor)
         {
             other.gameObject.SetActive(false);
         }
@@ -33,6 +38,7 @@ public class Trap : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        
+        other.gameObject.SetActive(false);
+        BallController.Instance.CreateBall(bonusValue, other.transform.position);
     }
 }
