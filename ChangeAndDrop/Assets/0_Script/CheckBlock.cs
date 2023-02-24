@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class CheckBlock : MonoBehaviour
 {
-    Animator animator;
     [SerializeField] float BallCount; // TODO : µ¥ÀÌÅÍ·Î »©±â
     float checkBallCount;
+    
+    Animator animator;
+    ParticleSystem particle;
 
     void Awake()
     {
         animator = this.gameObject.GetComponent<Animator>();
+        particle = this.gameObject.GetComponentInChildren<ParticleSystem>();
     }
 
     void Start()
@@ -28,12 +31,17 @@ public class CheckBlock : MonoBehaviour
         if(other.tag.Equals("Ball"))
         {
             checkBallCount++;
-            animator.SetFloat("Check", checkBallCount/BallCount);
+            animator.SetFloat("Check", checkBallCount/BallCount); // TODO : Hash
             if(checkBallCount >= BallCount && BallController.Instance.BallCount >= BallCount)
             {
-                UnityEngine.Debug.Log("ÆÄ±«");
                 // ÆÄ±«
+                animator.SetBool("IsClear", true); // TODO : Hash
             }
         }
+    }
+
+    public void StartParicle()
+    {
+        particle.Play();
     }
 }
