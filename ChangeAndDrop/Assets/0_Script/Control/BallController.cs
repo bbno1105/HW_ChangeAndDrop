@@ -81,8 +81,8 @@ public class BallController : SingletonBehaviour<BallController>
 
         for (int i = 0; i < _ballCount; i++)
         {
-            float setValue = (i % 2) * Mathf.Pow(-1, i);
-            Vector3 newPosition = new Vector3(position.x + setValue/10f, position.y, position.z);
+            float setValue = (i / 2) * Mathf.Pow(-1f, i);
+            Vector3 newPosition = new Vector3(position.x + setValue/15f, position.y, position.z);
 
             if (ballPooling.Count == 0) BallPooling();
             if (ballPooling.Count > 0)
