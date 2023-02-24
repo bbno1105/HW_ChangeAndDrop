@@ -30,7 +30,7 @@ public class Trap : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(trapColor != BallController.Instance.BallColor)
+        if (other.tag.Equals("Ball") && trapColor != BallController.Instance.BallColor)
         {
             other.gameObject.SetActive(false);
         }
@@ -38,7 +38,10 @@ public class Trap : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        other.gameObject.SetActive(false);
-        BallController.Instance.CreateBall(bonusValue, other.transform.position);
+        if(other.tag.Equals("Ball"))
+        {
+            other.gameObject.SetActive(false);
+            BallController.Instance.CreateBall(bonusValue, other.transform.position);
+        }
     }
 }

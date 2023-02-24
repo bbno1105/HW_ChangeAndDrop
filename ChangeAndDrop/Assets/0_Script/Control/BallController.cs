@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class BallController : SingletonBehaviour<BallController>
 {
+    // Material
     [SerializeField] Material ballMaterial;
     public Material BallMaterial { get { return ballMaterial; } }
     [SerializeField] Material trailMaterial;
     public Material TrailMaterial { get { return trailMaterial; } }
+
+    // Object Pooling
+    [SerializeField] List<Ball> ballPool;
+    Queue<Ball> ballPooling = new Queue<Ball>();
+
+    // Ball State
+    int ballCount;
+    public int BallCount { get { return ballCount; } set { ballCount = value; } }
 
     COLORSTATE ballColor;
     public COLORSTATE BallColor
@@ -29,9 +38,6 @@ public class BallController : SingletonBehaviour<BallController>
             }
         }
     }
-
-    [SerializeField] List<Ball> ballPool;
-    Queue<Ball> ballPooling = new Queue<Ball>();
 
     void Start()
     {
@@ -72,7 +78,10 @@ public class BallController : SingletonBehaviour<BallController>
         for (int i = 0; i < ballPool.Count; i++)
         {
             if(ballPooling.Count == 0) BallPooling();
-            if(ballPooling.Count > 0) ballPooling.Dequeue().Active(_position);
+            if (ballPooling.Count > 0)
+            {
+                ballPooling.Dequeue().Activate(_position);
+            }
             if (--_ballCount < 0) return;
         }
     }
