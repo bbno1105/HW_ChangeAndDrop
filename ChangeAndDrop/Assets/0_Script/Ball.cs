@@ -67,12 +67,10 @@ public class Ball : MonoBehaviour
         this.transform.position = _position;
         this.gameObject.SetActive(true);
         rigidbody.velocity = new Vector3(_nowVelocity.x + _setVelocity, _nowVelocity.y, _nowVelocity.z);
-        BallController.Instance.BallCount++;
     }
 
     public void DeActivate()
     {
         this.gameObject.SetActive(false);
-        BallController.Instance.BallCount--;
     }
 }

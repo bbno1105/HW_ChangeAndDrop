@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CheckBlock : MonoBehaviour
 {
-    [SerializeField] float BallCount; // TODO : µ¥ÀÌÅÍ·Î »©±â
-    float checkBallCount;
+    [SerializeField] int checkCount; // TODO : µ¥ÀÌÅÍ·Î »©±â
+    int ballCount;
     
     Animator animator;
     ParticleSystem particle;
@@ -23,16 +23,16 @@ public class CheckBlock : MonoBehaviour
 
     void Initialize()
     {
-        checkBallCount = 0;
+        ballCount = 0;
     }
 
     void OnTriggerEnter(Collider other)
     {
         if(other.tag.Equals("Ball"))
         {
-            checkBallCount++;
-            animator.SetFloat("Check", checkBallCount/BallCount); // TODO : Hash
-            if(checkBallCount >= BallCount && BallController.Instance.BallCount >= BallCount)
+            ballCount++;
+            animator.SetFloat("Check", (float)ballCount/checkCount); // TODO : Hash
+            if(ballCount >= checkCount && BallController.Instance.BallCount >= checkCount)
             {
                 // ÆÄ±«
                 animator.SetBool("IsClear", true); // TODO : Hash

@@ -16,7 +16,7 @@ public class BallController : SingletonBehaviour<BallController>
 
     // Ball State
     int ballCount;
-    public int BallCount { get { return ballCount; } set { ballCount = value; } }
+    public int BallCount { get { return ballCount; } set { ballCount = value; UnityEngine.Debug.Log("ballCount : " + ballCount); } }
 
     COLORSTATE ballColor;
     public COLORSTATE BallColor
@@ -77,10 +77,9 @@ public class BallController : SingletonBehaviour<BallController>
     {
         Vector3 position = _ball.transform.position;
         Vector3 velocity = _ball.GetComponent<Rigidbody>().velocity;
-        _ball.DeActivate();
-
-        for (int i = 0; i < _ballCount; i++)
+        for (int i = 1; i < _ballCount; i++)
         {
+            BallCount++;
             float setValue = (i / 2) * Mathf.Pow(-1f, i);
             Vector3 newPosition = new Vector3(position.x + setValue/15f, position.y, position.z);
 
