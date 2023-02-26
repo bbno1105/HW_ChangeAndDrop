@@ -20,7 +20,7 @@ public class Box : MonoBehaviour
 
     void Awake()
     {
-        animator = this.GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
 
     void Start()
@@ -32,14 +32,14 @@ public class Box : MonoBehaviour
     {
         switch (boxState)
         {
-            case BOXSTATE.START:
-                break;
             case BOXSTATE.CHECK:
                 animator.SetBool(AnimString.IsCheckBox, true);
                 break;
+
             case BOXSTATE.FINISH:
                 animator.SetBool(AnimString.IsCheckBox, true);
                 break;
+
             default:
                 break;
         }
@@ -49,8 +49,6 @@ public class Box : MonoBehaviour
     {
         switch (boxState)
         {
-            case BOXSTATE.START:
-                break;
             case BOXSTATE.CHECK:
                 if (other.tag.Equals("Ball"))
                 {
@@ -63,6 +61,7 @@ public class Box : MonoBehaviour
                     }
                 }
                 break;
+
             case BOXSTATE.FINISH:
                 ballCount++;
                 animator.SetFloat(AnimString.Check, (float)ballCount / checkCount);
@@ -71,14 +70,18 @@ public class Box : MonoBehaviour
                 {
                     animator.SetBool(AnimString.IsFinish, true);
                     other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+
+                    if(ballCount == BallController.Instance.BallCount)
+                    {
+                        StartCoroutine(FinishEffet());
+                    }
                 }
                 else
                 {
                     other.GetComponent<Ball>().DeActivate();
                 }
-
-                
                 break;
+
             default:
                 break;
         }
@@ -91,6 +94,13 @@ public class Box : MonoBehaviour
 
     public void StartBall()
     {
-        BallController.Instance.CreateBall(BallController.Instance.BallCount, this.transform.position);
+        BallController.Instance.CreateBall(BallController.Instance.BallCount, transform.position);
+    }
+
+    IEnumerator FinishEffet()
+    {
+        yield return new WaitForSecondsRealtime(3);
+        PlayerController.Instance.SetEnd();
+        // บüนใ~
     }
 }

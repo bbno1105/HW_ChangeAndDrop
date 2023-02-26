@@ -41,18 +41,18 @@ public class TrapSetting : MonoBehaviour
     /// <param name="_moveSpeed">이동속도</param>
     void MoveTrap(bool _moveRight, float _moveSpeed)
     {
-        Vector3 position = this.transform.position;
+        Vector3 position = transform.position;
         if (_moveRight)
         {
             float movePositionX = position.x + _moveSpeed * Time.deltaTime;
             if (movePositionX >= 3.1f) movePositionX = -3.1f; // Loop
-            this.transform.position = new Vector3(movePositionX, position.y, position.z);
+            transform.position = new Vector3(movePositionX, position.y, position.z);
         }
         else
         {
             float movePositionX = position.x - _moveSpeed * Time.deltaTime;
             if (movePositionX <= -3.1f) movePositionX = 3.1f; // Loop
-            this.transform.position = new Vector3(movePositionX, position.y, position.z);
+            transform.position = new Vector3(movePositionX, position.y, position.z);
         }
     }
 
@@ -62,7 +62,7 @@ public class TrapSetting : MonoBehaviour
     /// <param name="_positionX">범위 : - 3.1f ~ 3.1f </param>
     void TrapPositon(float _positionX)
     {
-        Vector3 position = this.transform.position;
-        this.transform.position = new Vector3(_positionX, position.y, position.z);
+        Vector3 position = transform.position;
+        transform.position = new Vector3(_positionX, position.y, position.z);
     }
 }

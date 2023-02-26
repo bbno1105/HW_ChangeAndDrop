@@ -12,8 +12,8 @@ public class CheckBlock : MonoBehaviour
 
     void Awake()
     {
-        animator = this.gameObject.GetComponent<Animator>();
-        particle = this.gameObject.GetComponentInChildren<ParticleSystem>();
+        animator = gameObject.GetComponent<Animator>();
+        particle = gameObject.GetComponentInChildren<ParticleSystem>();
     }
 
     void Start()

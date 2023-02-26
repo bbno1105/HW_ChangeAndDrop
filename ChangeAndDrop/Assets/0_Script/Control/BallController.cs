@@ -31,9 +31,13 @@ public class BallController : SingletonBehaviour<BallController>
                     ballMaterial.color = GameData.BlueColor;
                     trailMaterial.color = GameData.BlueColorTransparent;
                     break;
+
                 case COLORSTATE.ORANGE:
                     ballMaterial.color = GameData.OrangeColor;
                     trailMaterial.color = GameData.OrangeColorTransparent;
+                    break;
+
+                default:
                     break;
             }
         }
@@ -103,6 +107,17 @@ public class BallController : SingletonBehaviour<BallController>
             if (ballPooling.Count > 0)
             {
                 ballPooling.Dequeue().Activate(newPosition, Vector3.zero, setValue);
+            }
+        }
+    }
+
+    public void PopBall()
+    {
+        for (int i = 0; i < ballPool.Count; i++)
+        {
+            if(ballPool[i].gameObject.activeSelf)
+            {
+                ballPool[i].PopBall();
             }
         }
     }

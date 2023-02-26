@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : SingletonBehaviour<PlayerController>
 {
     PLAYERSTATE playerState;
-    public PLAYERSTATE PlayerState { get { return playerState; } set { playerState = value; } }
+    public PLAYERSTATE PlayerState { get { return playerState; } private set { playerState = value; } }
 
     [SerializeField] float mouseSpeed;
 
@@ -34,6 +34,7 @@ public class PlayerController : SingletonBehaviour<PlayerController>
                     playerState = PLAYERSTATE.READY;
                 }
                 break;
+
             case PLAYERSTATE.READY:
                 if (Input.GetMouseButtonDown(0)) // if (Input.GetMouseButtonUp(0)) 모바일 터치조작은 테스트 필요
                 {
@@ -45,17 +46,23 @@ public class PlayerController : SingletonBehaviour<PlayerController>
                     MoveBox();
                 }
                 break;
+
             case PLAYERSTATE.INGAME:
                 if (Input.GetMouseButtonDown(0))
                 {
                     BallController.Instance.ChangeColor();
                 }
                 break;
-            case PLAYERSTATE.End:
-                break;
+
             default:
                 break;
         }
+    }
+
+    public void SetEnd()
+    {
+        playerState = PLAYERSTATE.End;
+        BallController.Instance.PopBall();
     }
 
     void MoveBox()

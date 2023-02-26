@@ -7,6 +7,7 @@ public class Ball : MonoBehaviour
     MeshRenderer meshRenderer;
     TrailRenderer trailRenderer;
     Rigidbody rigidbody;
+    Collider collider;
 
     float maxVelocityY = 1f;
     float minVelocityY = -3f; 
@@ -15,9 +16,10 @@ public class Ball : MonoBehaviour
 
     void Awake()
     {
-        meshRenderer = this.GetComponent<MeshRenderer>();
-        trailRenderer = this.GetComponent<TrailRenderer>();
-        rigidbody = this.GetComponent<Rigidbody>();
+        meshRenderer = GetComponent<MeshRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
+        rigidbody = GetComponent<Rigidbody>();
+        collider = GetComponent<Collider>();
 
         meshRenderer.material = BallController.Instance.BallMaterial;
         trailRenderer.material = BallController.Instance.TrailMaterial;
@@ -25,21 +27,40 @@ public class Ball : MonoBehaviour
 
     void OnEnable()
     {
-        this.gameObject.layer = 8;
+        gameObject.layer = 8;
+        collider.isTrigger = false;
         rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.layer == 0)
+        switch (PlayerController.Instance.PlayerState)
         {
-            this.gameObject.layer = 7;
+            case PLAYERSTATE.INGAME:
+                if (collision.gameObject.layer == 0)
+                {
+                    gameObject.layer = 7;
+                }
+                break;
+
+            default:
+                break;
         }
+
     }
 
     void Update()
     {
-        LimitSpeed();
+        switch (PlayerController.Instance.PlayerState)
+        {
+            case PLAYERSTATE.INGAME:
+                LimitSpeed();
+                break;
+
+            default:
+                break;
+        }
+        
     }
 
     void LimitSpeed()
@@ -65,15 +86,20 @@ public class Ball : MonoBehaviour
 
     public void Activate(Vector3 _position, Vector3 _nowVelocity ,float _setVelocity)
     {
-        UnityEngine.Debug.Log("name : " + this.gameObject.name);
-        this.transform.position = _position;
-        this.gameObject.SetActive(true);
+        transform.position = _position;
+        gameObject.SetActive(true);
         rigidbody.velocity = new Vector3(_nowVelocity.x + _setVelocity, _nowVelocity.y, _nowVelocity.z);
     }
 
     public void DeActivate(bool _isDistroy = false)
     {
         if(_isDistroy) BallController.Instance.BallCount--;
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
+    }
+
+    public void PopBall()
+    {
+        collider.isTrigger = true;
+        rigidbody.velocity = new Vector3(Random.Range(-2, 2), Random.Range(6, 12), Random.Range(-2f, 0f));
     }
 }
