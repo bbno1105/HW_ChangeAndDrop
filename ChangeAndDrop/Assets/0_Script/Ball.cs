@@ -26,6 +26,7 @@ public class Ball : MonoBehaviour
     void OnEnable()
     {
         this.gameObject.layer = 8;
+        rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -64,13 +65,15 @@ public class Ball : MonoBehaviour
 
     public void Activate(Vector3 _position, Vector3 _nowVelocity ,float _setVelocity)
     {
+        UnityEngine.Debug.Log("name : " + this.gameObject.name);
         this.transform.position = _position;
         this.gameObject.SetActive(true);
         rigidbody.velocity = new Vector3(_nowVelocity.x + _setVelocity, _nowVelocity.y, _nowVelocity.z);
     }
 
-    public void DeActivate()
+    public void DeActivate(bool _isDistroy = false)
     {
+        if(_isDistroy) BallController.Instance.BallCount--;
         this.gameObject.SetActive(false);
     }
 }

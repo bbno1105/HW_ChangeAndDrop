@@ -14,8 +14,7 @@ public class Trap : MonoBehaviour
     {
         if (other.tag.Equals("Ball") && trapColor != BallController.Instance.BallColor)
         {
-            other.GetComponent<Ball>().DeActivate();
-            BallController.Instance.BallCount--;
+            other.GetComponent<Ball>().DeActivate(true);
         }
     }
 

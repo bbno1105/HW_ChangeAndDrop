@@ -41,6 +41,7 @@ public class BallController : SingletonBehaviour<BallController>
 
     void Start()
     {
+        BallCount = 4; // TODO : 스테이지 데이터에서 받기
         Initialize();
     }
 
@@ -80,13 +81,28 @@ public class BallController : SingletonBehaviour<BallController>
         for (int i = 1; i < _ballCount; i++)
         {
             BallCount++;
-            float setValue = (i / 2) * Mathf.Pow(-1f, i);
+            float setValue = (i / 2f) * Mathf.Pow(-1f, i);
             Vector3 newPosition = new Vector3(position.x + setValue/15f, position.y, position.z);
 
             if (ballPooling.Count == 0) BallPooling();
             if (ballPooling.Count > 0)
             {
                 ballPooling.Dequeue().Activate(newPosition, velocity, setValue);
+            }
+        }
+    }
+
+    public void CreateBall(int _ballCount, Vector3 _position)
+    {
+        for (int i = 0; i < _ballCount; i++)
+        {
+            float setValue = (i / 10f) * Mathf.Pow(-1f, i);
+            Vector3 newPosition = new Vector3(_position.x + setValue / 15f, _position.y, _position.z);
+
+            if (ballPooling.Count == 0) BallPooling();
+            if (ballPooling.Count > 0)
+            {
+                ballPooling.Dequeue().Activate(newPosition, Vector3.zero, setValue);
             }
         }
     }

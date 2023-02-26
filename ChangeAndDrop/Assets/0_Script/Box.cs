@@ -7,10 +7,10 @@ public class Box : MonoBehaviour
     enum BOXSTATE
     {
         START,
-        CHECK
+        CHECK,
+        FINISH
     }
-    BOXSTATE boxState;
-    [SerializeField] bool isStartBox;
+    [SerializeField] BOXSTATE boxState;
     float ballCount;
     
     [Header("CheckBox")]
@@ -30,13 +30,14 @@ public class Box : MonoBehaviour
 
     void Initialize()
     {
-        boxState = isStartBox ? BOXSTATE.START : BOXSTATE.CHECK;
-
         switch (boxState)
         {
             case BOXSTATE.START:
                 break;
             case BOXSTATE.CHECK:
+                animator.SetBool(AnimString.IsCheckBox, true);
+                break;
+            case BOXSTATE.FINISH:
                 animator.SetBool(AnimString.IsCheckBox, true);
                 break;
             default:
@@ -56,12 +57,27 @@ public class Box : MonoBehaviour
                     ballCount++;
                     other.GetComponent<Ball>().DeActivate();
                     animator.SetFloat(AnimString.Check, (float)ballCount / checkCount);
-
                     if (ballCount > checkCount && ballCount == BallController.Instance.BallCount)
                     {
                         animator.SetBool(AnimString.IsClear, true);
                     }
                 }
+                break;
+            case BOXSTATE.FINISH:
+                ballCount++;
+                animator.SetFloat(AnimString.Check, (float)ballCount / checkCount);
+
+                if (ballCount > checkCount)
+                {
+                    animator.SetBool(AnimString.IsFinish, true);
+                    other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                }
+                else
+                {
+                    other.GetComponent<Ball>().DeActivate();
+                }
+
+                
                 break;
             default:
                 break;
@@ -75,6 +91,6 @@ public class Box : MonoBehaviour
 
     public void StartBall()
     {
-        BallController.Instance.CreateBall(BallController.Instance.BallCount, this.transform);
+        BallController.Instance.CreateBall(BallController.Instance.BallCount, this.transform.position);
     }
 }
