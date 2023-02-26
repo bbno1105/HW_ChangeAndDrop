@@ -20,7 +20,7 @@ public class Box : MonoBehaviour
 
     void Awake()
     {
-        animator = this.GetComponentInParent<Animator>();
+        animator = this.GetComponent<Animator>();
     }
 
     void Start()
@@ -37,7 +37,7 @@ public class Box : MonoBehaviour
             case BOXSTATE.START:
                 break;
             case BOXSTATE.CHECK:
-                animator.SetBool("IsCheckBox", true);
+                animator.SetBool(AnimString.IsCheckBox, true);
                 break;
             default:
                 break;
@@ -55,11 +55,11 @@ public class Box : MonoBehaviour
                 {
                     ballCount++;
                     other.GetComponent<Ball>().DeActivate();
-                    animator.SetFloat("Check", (float)ballCount / checkCount);
+                    animator.SetFloat(AnimString.Check, (float)ballCount / checkCount);
 
                     if (ballCount > checkCount && ballCount == BallController.Instance.BallCount)
                     {
-                        animator.SetBool("IsClear", true);
+                        animator.SetBool(AnimString.IsClear, true);
                     }
                 }
                 break;
@@ -68,5 +68,13 @@ public class Box : MonoBehaviour
         }
     }
 
+    public void StartBox()
+    {
+        animator.SetBool(AnimString.IsStart, true);
+    }
 
+    public void StartBall()
+    {
+        BallController.Instance.CreateBall(BallController.Instance.BallCount, this.transform);
+    }
 }

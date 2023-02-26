@@ -2,25 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PLAYERSTATE
-{
-    READY,
-    INGAME,
-    End
-}
-
-public enum COLORSTATE
-{
-    BLUE = 0,
-    ORANGE
-}
-
 public class GameManager : SingletonBehaviour<GameManager>
 {
-    PLAYERSTATE playerState;
-    public PLAYERSTATE PlayerState { get { return playerState; } }
+    [SerializeField] Queue<Box> boxList = new Queue<Box>();
+    [SerializeField] Box nowBox;
+    public Box NowBox { get { return nowBox; } set { nowBox = value; } }
 
-    // Start is called before the first frame update
     void Start()
     {
         Initialize();
@@ -28,12 +15,23 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     void Initialize()
     {
-        playerState = PLAYERSTATE.INGAME;
+        Box[] box = FindObjectsOfType<Box>(false);
+        for (int i = 0; i < box.Length; i++)
+        {
+            boxList.Enqueue(box[i]);
+        }
+        nowBox = boxList.Dequeue();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public bool NextBox()
+    {
+        if (boxList.Count <= 0) return false;
+        nowBox = boxList.Dequeue();
+        return true;
     }
 }

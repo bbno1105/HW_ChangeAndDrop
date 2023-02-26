@@ -10,17 +10,6 @@ public class Trap : MonoBehaviour
     [SerializeField] int bonusValue; // TODO : 데이터 빼기
     public int BonusValue { get { return bonusValue; } set { bonusValue = value; } }
 
-    void Start()
-    {
-        Initialize();
-    }
-
-    void Initialize()
-    {
-        this.GetComponent<MeshRenderer>().material = TrapController.Instance.TrapMaterials[(int)trapColor];
-        // TODO : TrapColor를 데이터에서 받아오기
-    }
-
     void OnTriggerEnter(Collider other)
     {
         if (other.tag.Equals("Ball") && trapColor != BallController.Instance.BallColor)
@@ -34,7 +23,7 @@ public class Trap : MonoBehaviour
     {
         if(other.tag.Equals("Ball"))
         {
-            BallController.Instance.CreateBall(BonusValue, other.GetComponent<Ball>());
+            BallController.Instance.CreateBall(BonusValue, other.transform);
         }
     }
 }

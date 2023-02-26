@@ -31,11 +31,11 @@ public class CheckBlock : MonoBehaviour
         if(other.tag.Equals("Ball"))
         {
             ballCount++;
-            animator.SetFloat("Check", (float)ballCount/checkCount); // TODO : Hash
+            animator.SetFloat(AnimString.Check, (float)ballCount/checkCount);
             if(ballCount >= checkCount && BallController.Instance.BallCount >= checkCount)
             {
                 // ÆÄ±«
-                animator.SetBool("IsClear", true); // TODO : Hash
+                animator.SetBool(AnimString.IsClear, true);
             }
         }
     }
