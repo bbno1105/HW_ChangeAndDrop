@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
+    Animator animator;
+    
     enum BOXSTATE
     {
         START,
         CHECK,
         FINISH
     }
-    [SerializeField] BOXSTATE boxState;
+    [SerializeField] BOXSTATE boxState; // TODO : 데이터에서 가져오기
     float ballCount;
     
     [Header("CheckBox")]
     [SerializeField] int checkCount;
-
-    Animator animator;
 
     void Awake()
     {
@@ -92,7 +92,7 @@ public class Box : MonoBehaviour
         animator.SetTrigger(AnimString.IsStart);
     }
 
-    public void StartBall()
+    public void StartBall() // Animation Event
     {
         BallController.Instance.CreateBall(BallController.Instance.BallCount, transform.position);
     }

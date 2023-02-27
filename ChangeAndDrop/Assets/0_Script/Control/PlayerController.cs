@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerController : SingletonBehaviour<PlayerController>
 {
+    [SerializeField] float mouseSpeed;
+
     PLAYERSTATE playerState;
     public PLAYERSTATE PlayerState { get { return playerState; } private set { playerState = value; } }
-
-    [SerializeField] float mouseSpeed;
 
     void Start()
     {

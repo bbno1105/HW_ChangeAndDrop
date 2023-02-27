@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CheckBlock : MonoBehaviour
 {
-    [SerializeField] int checkCount; // TODO : µ¥ÀÌÅÍ·Î »©±â
-    int ballCount;
-    
     Animator animator;
     ParticleSystem particle;
+
+    [SerializeField] int checkCount; // TODO : µ¥ÀÌÅÍ·Î »©±â
+    int ballCount;
 
     void Awake()
     {

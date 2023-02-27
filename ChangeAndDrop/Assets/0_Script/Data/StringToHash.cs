@@ -9,5 +9,4 @@ public static class AnimString
     public static readonly int IsClear = Animator.StringToHash("IsClear");
     public static readonly int IsStart = Animator.StringToHash("IsStart");
     public static readonly int IsFinish = Animator.StringToHash("IsFinish");
-
 }

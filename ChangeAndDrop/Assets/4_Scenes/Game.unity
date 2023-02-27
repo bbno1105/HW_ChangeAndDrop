@@ -7677,7 +7677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8745654991398655524, guid: 33dbdf133b460cf4a89d51457a032d1e, type: 3}
       propertyPath: m_UpdateMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8745654991398655524, guid: 33dbdf133b460cf4a89d51457a032d1e, type: 3}
       propertyPath: m_ApplyRootMotion
