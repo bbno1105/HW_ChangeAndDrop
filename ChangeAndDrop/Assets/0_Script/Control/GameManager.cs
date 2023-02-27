@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
-    [SerializeField] Queue<Box> boxList = new Queue<Box>();
+    Queue<Box> boxList = new Queue<Box>();
+    [SerializeField] Box[] box;
     [SerializeField] Box nowBox;
     public Box NowBox { get { return nowBox; } set { nowBox = value; } }
 
@@ -13,9 +14,9 @@ public class GameManager : SingletonBehaviour<GameManager>
         Initialize();
     }
 
-    void Initialize()
+    public void Initialize()
     {
-        Box[] box = FindObjectsOfType<Box>(false);
+        UnityEngine.Debug.Log(box);
         for (int i = 0; i < box.Length; i++)
         {
             boxList.Enqueue(box[i]);
@@ -32,6 +33,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     {
         if (boxList.Count <= 0) return false;
         nowBox = boxList.Dequeue();
+        PlayerController.Instance.Initialize();
         return true;
     }
 }

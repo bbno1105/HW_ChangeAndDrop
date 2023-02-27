@@ -14,7 +14,7 @@ public class PlayerController : SingletonBehaviour<PlayerController>
         Initialize();
     }
 
-    void Initialize()
+    public void Initialize()
     {
         PlayerState = PLAYERSTATE.IDLE;
     }

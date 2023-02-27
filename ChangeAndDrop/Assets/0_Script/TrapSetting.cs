@@ -19,7 +19,7 @@ public class TrapSetting : MonoBehaviour
         Initialize();
     }
 
-    void Initialize()
+    public void Initialize()
     {
         // TODO : TrapColor를 데이터에서 받아오기
         TrapPositon(trapStartPosition);

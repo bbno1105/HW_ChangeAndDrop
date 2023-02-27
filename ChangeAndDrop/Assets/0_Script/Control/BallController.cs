@@ -49,7 +49,7 @@ public class BallController : SingletonBehaviour<BallController>
         Initialize();
     }
 
-    void Initialize()
+    public void Initialize()
     {
         BallColor = COLORSTATE.BLUE;
         BallPooling();

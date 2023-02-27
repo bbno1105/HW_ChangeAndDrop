@@ -28,7 +28,7 @@ public class Box : MonoBehaviour
         Initialize();
     }
 
-    void Initialize()
+    public void Initialize()
     {
         switch (boxState)
         {
@@ -89,7 +89,7 @@ public class Box : MonoBehaviour
 
     public void StartBox()
     {
-        animator.SetBool(AnimString.IsStart, true);
+        animator.SetTrigger(AnimString.IsStart);
     }
 
     public void StartBall()
@@ -97,10 +97,15 @@ public class Box : MonoBehaviour
         BallController.Instance.CreateBall(BallController.Instance.BallCount, transform.position);
     }
 
+    public void NextBox()
+    {
+        boxState = BOXSTATE.START;
+        GameManager.Instance.NextBox();
+    }
+
     IEnumerator FinishEffet()
     {
         yield return new WaitForSecondsRealtime(3);
         PlayerController.Instance.SetEnd();
-        // บüนใ~
     }
 }

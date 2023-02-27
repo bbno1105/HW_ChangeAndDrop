@@ -21,7 +21,7 @@ public class CheckBlock : MonoBehaviour
         Initialize();
     }
 
-    void Initialize()
+    public void Initialize()
     {
         ballCount = 0;
     }
@@ -34,7 +34,6 @@ public class CheckBlock : MonoBehaviour
             animator.SetFloat(AnimString.Check, (float)ballCount/checkCount);
             if(ballCount >= checkCount && BallController.Instance.BallCount >= checkCount)
             {
-                // ÆÄ±«
                 animator.SetBool(AnimString.IsClear, true);
             }
         }
