@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
+    [SerializeField] int nowStage;
+    public int NowStage { get { return nowStage; } set { nowStage = value; } }
+    
     Queue<Box> boxList = new Queue<Box>();
     [SerializeField] Box[] box;
     [SerializeField] Box nowBox;
@@ -16,7 +19,8 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     public void Initialize()
     {
-        UnityEngine.Debug.Log(box);
+        NowStage = 0;
+
         for (int i = 0; i < box.Length; i++)
         {
             boxList.Enqueue(box[i]);

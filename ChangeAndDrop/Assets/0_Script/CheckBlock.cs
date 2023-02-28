@@ -30,6 +30,7 @@ public class CheckBlock : MonoBehaviour
     {
         if(other.tag.Equals("Ball"))
         {
+            UnityEngine.Debug.Log(ballCount);
             ballCount++;
             animator.SetFloat(AnimString.Check, (float)ballCount/checkCount);
             if(ballCount >= checkCount && BallController.Instance.BallCount >= checkCount)

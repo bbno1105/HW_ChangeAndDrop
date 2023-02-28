@@ -55,6 +55,7 @@ public class Ball : MonoBehaviour
         {
             case PLAYERSTATE.INGAME:
                 LimitSpeed();
+                LimitArea();
                 break;
 
             default:
@@ -81,6 +82,19 @@ public class Ball : MonoBehaviour
         if (nowSpeed.y > maxVelocityY)
         {
             rigidbody.velocity = new Vector3(nowSpeed.x, 1f, nowSpeed.z);
+        }
+    }
+
+    void LimitArea()
+    {
+        Vector3 position = transform.position;
+        if (position.x < -1.5f)
+        {
+            transform.position = new Vector3(-1.5f, position.y, position.z);
+        }
+        else if(position.x > 1.5f)
+        {
+            transform.position = new Vector3(1.5f, position.y, position.z);
         }
     }
 

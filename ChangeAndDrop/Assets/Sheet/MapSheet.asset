@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f247e09c5e1192a4f92ee3752555681b, type: 3}
+  m_Name: MapSheet
+  m_EditorClassIdentifier: 
+  SheetName: Assets/Sheet/Data.xlsx
+  WorksheetName: MapSheet
+  dataArray:
+  - id: 0
+    type: 0
+    trapstartposition: 0
+    ismovetrap: 0
+    moveright: 0
+    movespeed: 0
+    create: 0
+    obstacletype: 0
+    checkcount: 0
+  - id: 1
+    type: 1
+    trapstartposition: 1
+    ismovetrap: 1
+    moveright: 1
+    movespeed: 2
+    create: 7
+    obstacletype: 0
+    checkcount: 0
+  - id: 2
+    type: 1
+    trapstartposition: 1
+    ismovetrap: 1
+    moveright: 0
+    movespeed: 1
+    create: 7
+    obstacletype: 0
+    checkcount: 0
+  - id: 3
+    type: 1
+    trapstartposition: 3
+    ismovetrap: 0
+    moveright: 0
+    movespeed: 0
+    create: 3
+    obstacletype: 0
+    checkcount: 0
+  - id: 4
+    type: 1
+    trapstartposition: -3
+    ismovetrap: 0
+    moveright: 0
+    movespeed: 0
+    create: 3
+    obstacletype: 0
+    checkcount: 0
+  - id: 5
+    type: 1
+    trapstartposition: 2
+    ismovetrap: 0
+    moveright: 0
+    movespeed: 0
+    create: 5
+    obstacletype: 0
+    checkcount: 0
+  - id: 6
+    type: 1
+    trapstartposition: -2
+    ismovetrap: 0
+    moveright: 0
+    movespeed: 0
+    create: 5
+    obstacletype: 0
+    checkcount: 0
+  - id: 7
+    type: 2
+    trapstartposition: 0
+    ismovetrap: 0
+    moveright: 0
+    movespeed: 0
+    create: 0
+    obstacletype: 0
+    checkcount: 0
+  - id: 8
+    type: 2
+    trapstartposition: 0
+    ismovetrap: 0
+    moveright: 0
+    movespeed: 0
+    create: 0
+    obstacletype: 1
+    checkcount: 0
+  - id: 9
+    type: 3
+    trapstartposition: 0
+    ismovetrap: 0
+    moveright: 0
+    movespeed: 0
+    create: 0
+    obstacletype: 0
+    checkcount: 20
+  - id: 10
+    type: 3
+    trapstartposition: 0
+    ismovetrap: 0
+    moveright: 0
+    movespeed: 0
+    create: 0
+    obstacletype: 0
+    checkcount: 50
+  - id: 11
+    type: 4
+    trapstartposition: 0
+    ismovetrap: 0
+    moveright: 0
+    movespeed: 0
+    create: 0
+    obstacletype: 0
+    checkcount: 500

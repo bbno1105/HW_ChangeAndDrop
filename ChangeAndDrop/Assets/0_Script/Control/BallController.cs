@@ -82,31 +82,40 @@ public class BallController : SingletonBehaviour<BallController>
     {
         Vector3 position = _ball.position;
         Vector3 velocity = _ball.GetComponent<Rigidbody>().velocity;
-        for (int i = 1; i < _ballCount; i++)
-        {
-            BallCount++;
-            float setValue = (i / 2f) * Mathf.Pow(-1f, i);
-            Vector3 newPosition = new Vector3(position.x + setValue/15f, position.y, position.z);
+        --_ballCount;
+        BallCount += _ballCount;
+        StartCoroutine(CreateBallCoroutine(_ballCount, position, velocity));
+        //for (int i = 1; i < _ballCount; i++)
+        //{
+        //    BallCount++;
+        //    float setValue = (i / 2f) * Mathf.Pow(-1f, i);
+        //    Vector3 newPosition = new Vector3(position.x + setValue / 15f, position.y, position.z);
 
-            if (ballPooling.Count == 0) BallPooling();
-            if (ballPooling.Count > 0)
-            {
-                ballPooling.Dequeue().Activate(newPosition, velocity, setValue);
-            }
-        }
+        //    if (ballPooling.Count == 0) BallPooling();
+        //    if (ballPooling.Count > 0)
+        //    {
+        //        ballPooling.Dequeue().Activate(newPosition, velocity, setValue);
+        //    }
+        //}
     }
 
     public void CreateBall(int _ballCount, Vector3 _position)
     {
+        StartCoroutine(CreateBallCoroutine(_ballCount, _position, Vector3.zero));
+    }
+
+    IEnumerator CreateBallCoroutine(int _ballCount, Vector3 _position, Vector3 _velocity)
+    {
         for (int i = 0; i < _ballCount; i++)
         {
-            float setValue = (i / 10f) * Mathf.Pow(-1f, i);
+            yield return new WaitForSecondsRealtime(0.01f);
+            float setValue = (i % 10 / 10f) * Mathf.Pow(-1f, i);
             Vector3 newPosition = new Vector3(_position.x + setValue / 15f, _position.y, _position.z);
 
             if (ballPooling.Count == 0) BallPooling();
             if (ballPooling.Count > 0)
             {
-                ballPooling.Dequeue().Activate(newPosition, Vector3.zero, setValue);
+                ballPooling.Dequeue().Activate(newPosition, _velocity, setValue);
             }
         }
     }
