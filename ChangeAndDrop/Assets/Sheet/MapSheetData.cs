@@ -33,8 +33,12 @@ public class MapSheetData
   public int Movespeed { get {return movespeed; } set { this.movespeed = value;} }
   
   [SerializeField]
-  int create;
-  public int Create { get {return create; } set { this.create = value;} }
+  int createblue;
+  public int Createblue { get {return createblue; } set { this.createblue = value;} }
+  
+  [SerializeField]
+  int createorange;
+  public int Createorange { get {return createorange; } set { this.createorange = value;} }
   
   [SerializeField]
   int obstacletype;

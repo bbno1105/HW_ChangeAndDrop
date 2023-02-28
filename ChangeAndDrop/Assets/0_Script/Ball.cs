@@ -14,6 +14,10 @@ public class Ball : MonoBehaviour
     float maxVelocityX = 3f;
     float minVelocityX = -3f;
 
+    float limitPositionY;
+    [SerializeField] float createPositionY;
+    public float CreatePositionY { get { return createPositionY; } set { createPositionY = value; } }
+
     void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
@@ -28,6 +32,9 @@ public class Ball : MonoBehaviour
     void OnEnable()
     {
         gameObject.layer = 8;
+        gameObject.tag = "Ball";
+        limitPositionY = this.transform.position.y;
+
         collider.isTrigger = false;
         rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
     }
@@ -59,6 +66,10 @@ public class Ball : MonoBehaviour
                 break;
 
             default:
+                if (transform.position.y < -100)
+                {
+                    DeActivate();
+                }
                 break;
         }
         
@@ -96,18 +107,26 @@ public class Ball : MonoBehaviour
         {
             transform.position = new Vector3(1.5f, position.y, position.z);
         }
+
+        if(position.y > limitPositionY)
+        {
+            transform.position = new Vector3(position.x, limitPositionY, position.z);
+        }
     }
 
     public void Activate(Vector3 _position, Vector3 _nowVelocity ,float _setVelocity)
     {
+        CreatePositionY = _position.y - 1;
+
         transform.position = _position;
+
         gameObject.SetActive(true);
         rigidbody.velocity = new Vector3(_nowVelocity.x + _setVelocity, _nowVelocity.y, _nowVelocity.z);
     }
 
     public void DeActivate(bool _isDistroy = false)
     {
-        if(_isDistroy) BallController.Instance.BallCount--;
+        if(_isDistroy) --BallController.Instance.BallCount;
         gameObject.SetActive(false);
     }
 

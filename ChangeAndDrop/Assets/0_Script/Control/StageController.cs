@@ -5,17 +5,18 @@ using UnityEngine;
 public class StageController : MonoBehaviour
 {
     // START - MAP ~ MAP - FINISH
-    StageSheetData nowStageData;
+    StageSheetData nowStageData = new StageSheetData();
+
     int startBallCount;
     public int StartBallCount { get { return startBallCount; } set { startBallCount = value; } }
     int clearCount;
     public int ClearCount { get { return clearCount; } set { clearCount = value; } }
     
-    Queue<int> nowMapList = new Queue<int>();
-    
     [SerializeField] Transform mapParent;
+    [SerializeField] GameObject mapStartPrefab;
     [SerializeField] GameObject mapPrefab;
-    [SerializeField] GameObject checkBoxPrefab;
+    [SerializeField] GameObject mapCheckBoxPrefab;
+    [SerializeField] GameObject mapFinishPrefab;
 
     void Start()
     {
@@ -34,63 +35,136 @@ public class StageController : MonoBehaviour
             StartBallCount = nowStageData.Startballcount;
             ClearCount = nowStageData.Clearcount;
             SettingMapData(nowStageData.Maplist);
+
+            BallController.Instance.BallCount = nowStageData.Startballcount;
+            GameManager.Instance.NextBox();
         }
     }
 
-    void SettingMapData(string _mapList)
+    void SettingMapData(int[] _mapList)
     {
-        string[] mapData = _mapList.Split(',');
-        foreach (string data in mapData)
+        Vector3 mapPosition = Vector3.zero;
+
+        // ½ÃÀÛ
+        GameObject startMap = Instantiate(mapStartPrefab, mapPosition, Quaternion.identity, mapParent);
+        GameManager.Instance.boxList.Enqueue(startMap.GetComponentInChildren<Box>());
+        mapPosition = new Vector3(mapPosition.x, mapPosition.y - 2, mapPosition.z);
+
+        // ¸Ê
+        foreach (int data in _mapList)
         {
-            nowMapList.Enqueue(int.Parse(data));
+            SettingMap(data, ref mapPosition);
         }
-        UnityEngine.Debug.Log(nowMapList);
+
+        // ÇÇ´Ï½¬
+        GameObject finishMap = Instantiate(mapFinishPrefab, mapPosition, Quaternion.identity, mapParent);
+        GameManager.Instance.boxList.Enqueue(finishMap.GetComponentInChildren<Box>());
     }
 
-    void SettingMap(int _mapType)
+    void SettingMap(int _mapID, ref Vector3 _mapPosition)
     {
-        
-        switch (_mapType)
+        if (StaticData.MapData.TryGetValue(_mapID, out MapSheetData mapSheetData))
         {
-            case 0: // NONE
-                {
-                    GameObject map = Instantiate(mapPrefab,mapParent);
-                }
-                break;
+            int movePositionY = 0;
 
-            case 1: // TRAP
-                {
-                    GameObject map = Instantiate(mapPrefab, mapParent);
-                    map.transform.GetChild(1).gameObject.SetActive(true);
-                    TrapSetting trap = map.GetComponentInChildren<TrapSetting>();
-                    // Æ®·¦¼¼ÆÃ
-                }
-                break;
+            switch (mapSheetData.Type)
+            {
+                case 0: // NONE
+                    {
+                        GameObject map = Instantiate(mapPrefab, _mapPosition, Quaternion.identity, mapParent);
 
-            case 2: // OBSTACLE
-                {
-                    GameObject map = Instantiate(mapPrefab, mapParent);
-                    map.transform.GetChild(2).gameObject.SetActive(true);
-                }
-                break;
+                        movePositionY = 2;
+                    }
+                    break;
 
-            case 3: // CHECKBLOCK
-                {
-                    GameObject map = Instantiate(mapPrefab, mapParent);
-                    map.transform.GetChild(3).gameObject.SetActive(true);
+                case 1: // TRAP
+                    {
+                        GameObject map = Instantiate(mapPrefab, _mapPosition, Quaternion.identity, mapParent);
+                        map.transform.GetChild(1).gameObject.SetActive(true);
+                        TrapSetting trapSetting = map.GetComponentInChildren<TrapSetting>();
+                        // Æ®·¦¼¼ÆÃ
+                        trapSetting.TrapStartPosition = mapSheetData.Trapstartposition;
+                        trapSetting.IsMoveTrap = mapSheetData.Ismovetrap;
+                        trapSetting.MoveRight = mapSheetData.Moveright;
+                        trapSetting.MoveSpeed = mapSheetData.Movespeed;
 
-                }
-                break;
+                        foreach (Trap trap in map.GetComponentsInChildren<Trap>())
+                        {
+                            switch (trap.TrapColor)
+                            {
+                                case COLORSTATE.BLUE:
+                                    trap.BonusValue = mapSheetData.Createblue;
+                                    break;
+                                case COLORSTATE.ORANGE:
+                                    trap.BonusValue = mapSheetData.Createorange;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
 
-            case 4: // CHECKBOX
-                {
-                    GameObject map = Instantiate(checkBoxPrefab, mapParent);
+                        movePositionY = 2;
+                    }
+                    break;
 
-                }
-                break;
+                case 2: // OBSTACLE
+                    {
+                        GameObject map = Instantiate(mapPrefab, _mapPosition, Quaternion.identity, mapParent);
+                        GameObject obstacle = map.transform.GetChild(2).gameObject;
+                        obstacle.SetActive(true);
+                        // Àå¾Ö¹°
+                        switch (mapSheetData.Obstacletype)
+                        {
+                            case 0: // ÁÂ
+                                obstacle.transform.GetChild(0).gameObject.SetActive(true);
+                                obstacle.transform.GetChild(1).gameObject.SetActive(false);
+                                break;
 
-            default:
-                break;
+                            case 1: // ¿ì
+                                obstacle.transform.GetChild(0).gameObject.SetActive(false);
+                                obstacle.transform.GetChild(1).gameObject.SetActive(true);
+                                break;
+
+                            case 2: // ¾çÂÊ
+                                obstacle.transform.GetChild(0).gameObject.SetActive(true);
+                                obstacle.transform.GetChild(1).gameObject.SetActive(true);
+                                break;
+
+                            default:
+                                break;
+                        }
+                        movePositionY = 2;
+                    }
+                    break;
+
+                case 3: // CHECKBLOCK
+                    {
+                        GameObject map = Instantiate(mapPrefab, _mapPosition, Quaternion.identity, mapParent);
+                        map.transform.GetChild(3).gameObject.SetActive(true);
+                        CheckBlock checkBlock = map.GetComponentInChildren<CheckBlock>();
+                        // Æ®·¦¼¼ÆÃ
+                        checkBlock.CheckCount = mapSheetData.Checkcount;
+
+                        movePositionY = 2;
+                    }
+                    break;
+
+                case 4: // CHECKBOX
+                    {
+                        GameObject map = Instantiate(mapCheckBoxPrefab, _mapPosition, Quaternion.identity, mapParent);
+                        Box box = map.GetComponentInChildren<Box>();
+                        box.CheckCount = mapSheetData.Checkcount;
+                        GameManager.Instance.boxList.Enqueue(box);
+
+                        movePositionY = 4;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            _mapPosition = new Vector3(_mapPosition.x, _mapPosition.y - movePositionY, _mapPosition.z);
         }
     }
 }

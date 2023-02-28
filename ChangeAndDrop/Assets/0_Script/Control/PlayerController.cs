@@ -7,7 +7,7 @@ public class PlayerController : SingletonBehaviour<PlayerController>
     [SerializeField] float mouseSpeed;
 
     PLAYERSTATE playerState;
-    public PLAYERSTATE PlayerState { get { return playerState; } private set { playerState = value; } }
+    public PLAYERSTATE PlayerState { get { return playerState; } private set { playerState = value; UnityEngine.Debug.Log("PlayerState : " + PlayerState); } }
 
     void Start()
     {
@@ -31,14 +31,14 @@ public class PlayerController : SingletonBehaviour<PlayerController>
             case PLAYERSTATE.IDLE:
                 if (Input.GetMouseButtonDown(0))
                 {
-                    playerState = PLAYERSTATE.READY;
+                    PlayerState = PLAYERSTATE.READY;
                 }
                 break;
 
             case PLAYERSTATE.READY:
                 if (Input.GetMouseButtonDown(0)) // if (Input.GetMouseButtonUp(0)) 모바일 터치조작은 테스트 필요
                 {
-                    playerState = PLAYERSTATE.INGAME;
+                    PlayerState = PLAYERSTATE.INGAME;
                     GameManager.Instance.NowBox.StartBox();
                 }
                 else
@@ -61,7 +61,7 @@ public class PlayerController : SingletonBehaviour<PlayerController>
 
     public void SetEnd()
     {
-        playerState = PLAYERSTATE.End;
+        PlayerState = PLAYERSTATE.End;
         BallController.Instance.PopBall();
     }
 

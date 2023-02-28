@@ -45,7 +45,6 @@ public class BallController : SingletonBehaviour<BallController>
 
     void Start()
     {
-        BallCount = 4; // TODO : 스테이지 데이터에서 받기
         Initialize();
     }
 
@@ -76,6 +75,17 @@ public class BallController : SingletonBehaviour<BallController>
                 ballPooling.Enqueue(ballPool[i]);
             }
         }
+
+        if(ballPooling.Count == 0)
+        {
+            for (int i = 0; i < 500; i++)
+            {
+                GameObject newBall = Instantiate(ballPool[0].gameObject, ballPool[0].transform.parent);
+                newBall.SetActive(false);
+                ballPool.Add(newBall.GetComponent<Ball>());
+            }
+            BallPooling();
+        }
     }
 
     public void CreateBall(int _ballCount, Transform _ball)
@@ -83,39 +93,29 @@ public class BallController : SingletonBehaviour<BallController>
         Vector3 position = _ball.position;
         Vector3 velocity = _ball.GetComponent<Rigidbody>().velocity;
         --_ballCount;
-        BallCount += _ballCount;
         StartCoroutine(CreateBallCoroutine(_ballCount, position, velocity));
-        //for (int i = 1; i < _ballCount; i++)
-        //{
-        //    BallCount++;
-        //    float setValue = (i / 2f) * Mathf.Pow(-1f, i);
-        //    Vector3 newPosition = new Vector3(position.x + setValue / 15f, position.y, position.z);
-
-        //    if (ballPooling.Count == 0) BallPooling();
-        //    if (ballPooling.Count > 0)
-        //    {
-        //        ballPooling.Dequeue().Activate(newPosition, velocity, setValue);
-        //    }
-        //}
     }
 
     public void CreateBall(int _ballCount, Vector3 _position)
     {
-        StartCoroutine(CreateBallCoroutine(_ballCount, _position, Vector3.zero));
+        StartCoroutine(CreateBallCoroutine(_ballCount, _position, Vector3.zero, true));
     }
 
-    IEnumerator CreateBallCoroutine(int _ballCount, Vector3 _position, Vector3 _velocity)
+    IEnumerator CreateBallCoroutine(int _ballCount, Vector3 _position, Vector3 _velocity, bool _isStartBox = false)
     {
         for (int i = 0; i < _ballCount; i++)
         {
-            yield return new WaitForSecondsRealtime(0.01f);
-            float setValue = (i % 10 / 10f) * Mathf.Pow(-1f, i);
+            yield return new WaitForEndOfFrame();
+            float setValue = (Random.Range(0,1f)) * Mathf.Pow(-1f, i);
             Vector3 newPosition = new Vector3(_position.x + setValue / 15f, _position.y, _position.z);
 
             if (ballPooling.Count == 0) BallPooling();
             if (ballPooling.Count > 0)
             {
-                ballPooling.Dequeue().Activate(newPosition, _velocity, setValue);
+                Ball ball = ballPooling.Dequeue();
+                ball.Activate(newPosition, _velocity, setValue);
+
+                if (!_isStartBox) ++BallCount;
             }
         }
     }

@@ -17,8 +17,8 @@ public class StageSheetData
   public int Startballcount { get {return startballcount; } set { this.startballcount = value;} }
   
   [SerializeField]
-  string maplist;
-  public string Maplist { get {return maplist; } set { this.maplist = value;} }
+  int[] maplist = new int[0];
+  public int[] Maplist { get {return maplist; } set { this.maplist = value;} }
   
   [SerializeField]
   int clearcount;

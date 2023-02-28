@@ -7,8 +7,10 @@ public class CheckBlock : MonoBehaviour
     Animator animator;
     ParticleSystem particle;
 
-    [SerializeField] int checkCount; // TODO : 데이터로 빼기
     int ballCount;
+
+    [SerializeField] int checkCount;
+    public int CheckCount { get { return checkCount; } set { checkCount = value; } }
 
     void Awake()
     {
@@ -30,7 +32,6 @@ public class CheckBlock : MonoBehaviour
     {
         if(other.tag.Equals("Ball"))
         {
-            UnityEngine.Debug.Log(ballCount);
             ballCount++;
             animator.SetFloat(AnimString.Check, (float)ballCount/checkCount);
             if(ballCount >= checkCount && BallController.Instance.BallCount >= checkCount)

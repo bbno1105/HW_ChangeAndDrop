@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TrapSetting : MonoBehaviour
 {
-    // TODO : 데이터에서 받아오기
     [SerializeField] float trapStartPosition;
     public float TrapStartPosition { get { return trapStartPosition; } set { trapStartPosition = value; } }
     [SerializeField] bool isMoveTrap;
@@ -21,7 +20,6 @@ public class TrapSetting : MonoBehaviour
 
     public void Initialize()
     {
-        // TODO : TrapColor를 데이터에서 받아오기
         TrapPositon(trapStartPosition);
     }
 

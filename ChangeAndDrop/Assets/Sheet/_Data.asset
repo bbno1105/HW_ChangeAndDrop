@@ -16,26 +16,50 @@ MonoBehaviour:
   scriptFilePath: Data.xlsx
   editorScriptFilePath: QuickSheet/Editor
   sheetName: Data.xlsx
-  workSheetName: StageSheet
+  workSheetName: MapSheet
   columnHeaderList:
   - type: 3
     name: ID
     isEnable: 0
     isArray: 0
   - type: 3
-    name: StartBallCount
-    isEnable: 0
-    isArray: 0
-  - type: 1
-    name: MapList
+    name: Type
     isEnable: 0
     isArray: 0
   - type: 3
-    name: ClearCount
+    name: TrapStartPosition
+    isEnable: 0
+    isArray: 0
+  - type: 8
+    name: IsMoveTrap
+    isEnable: 0
+    isArray: 0
+  - type: 8
+    name: MoveRight
+    isEnable: 0
+    isArray: 0
+  - type: 3
+    name: MoveSpeed
+    isEnable: 0
+    isArray: 0
+  - type: 3
+    name: CreateBlue
+    isEnable: 0
+    isArray: 0
+  - type: 3
+    name: CreateOrange
+    isEnable: 0
+    isArray: 0
+  - type: 3
+    name: ObstacleType
+    isEnable: 0
+    isArray: 0
+  - type: 3
+    name: CheckCount
     isEnable: 0
     isArray: 0
   excelFilePath: Assets/Sheet/Data.xlsx
   SheetNames:
   - StageSheet
   - MapSheet
-  currentSelectedSheet: 0
+  currentSelectedSheet: 1

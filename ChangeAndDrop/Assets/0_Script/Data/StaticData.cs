@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class StaticData : MonoBehaviour
 {
-    void Start()
+    void Awake()
     {
         SetStageData();
         SetMapData();
     }
 
     [SerializeField] StageSheet stageSheet;
-    public static Dictionary<int, StageSheetData> StageData;
+    public static Dictionary<int, StageSheetData> StageData = new Dictionary<int, StageSheetData>();
 
     public void SetStageData()
     {
@@ -22,7 +22,7 @@ public class StaticData : MonoBehaviour
     }
 
     [SerializeField] MapSheet mapSheet;
-    public static Dictionary<int, MapSheetData> MapData;
+    public static Dictionary<int, MapSheetData> MapData = new Dictionary<int, MapSheetData>();
 
     public void SetMapData()
     {

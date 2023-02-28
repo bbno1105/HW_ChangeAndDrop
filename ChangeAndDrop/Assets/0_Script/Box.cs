@@ -12,11 +12,13 @@ public class Box : MonoBehaviour
         CHECK,
         FINISH
     }
-    [SerializeField] BOXSTATE boxState; // TODO : 데이터에서 가져오기
+    [SerializeField] BOXSTATE boxState;
+
     float ballCount;
     
     [Header("CheckBox")]
     [SerializeField] int checkCount;
+    public int CheckCount { get { return checkCount; } set { checkCount = value; } }
 
     void Awake()
     {
@@ -53,8 +55,13 @@ public class Box : MonoBehaviour
                 if (other.tag.Equals("Ball"))
                 {
                     ballCount++;
+                    other.tag = "CheckedBall";
+
                     other.GetComponent<Ball>().DeActivate();
                     animator.SetFloat(AnimString.Check, (float)ballCount / checkCount);
+
+                    UnityEngine.Debug.Log("CheckBallCount : " + ballCount + " / " + BallController.Instance.BallCount);
+
                     if (ballCount > checkCount && ballCount == BallController.Instance.BallCount)
                     {
                         animator.SetBool(AnimString.IsClear, true);
@@ -63,22 +70,27 @@ public class Box : MonoBehaviour
                 break;
 
             case BOXSTATE.FINISH:
-                ballCount++;
-                animator.SetFloat(AnimString.Check, (float)ballCount / checkCount);
+                if (other.tag.Equals("Ball"))
+                { 
+                    ballCount++;
+                    other.tag = "CheckedBall";
 
-                if (ballCount > checkCount)
-                {
-                    animator.SetBool(AnimString.IsFinish, true);
-                    other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-
-                    if(ballCount == BallController.Instance.BallCount)
+                    animator.SetFloat(AnimString.Check, (float)ballCount / checkCount);
+                
+                    if (ballCount > checkCount)
                     {
-                        StartCoroutine(FinishEffet());
+                        animator.SetBool(AnimString.IsFinish, true);
+                        other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+
+                        if(ballCount == BallController.Instance.BallCount)
+                        {
+                            StartCoroutine(FinishEffet());
+                        }
                     }
-                }
-                else
-                {
-                    other.GetComponent<Ball>().DeActivate();
+                    else
+                    {
+                        other.GetComponent<Ball>().DeActivate();
+                    }
                 }
                 break;
 
@@ -89,6 +101,7 @@ public class Box : MonoBehaviour
 
     public void StartBox()
     {
+        animator = GetComponent<Animator>();
         animator.SetTrigger(AnimString.IsStart);
     }
 
@@ -105,7 +118,7 @@ public class Box : MonoBehaviour
 
     IEnumerator FinishEffet()
     {
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(4);
         PlayerController.Instance.SetEnd();
     }
 }

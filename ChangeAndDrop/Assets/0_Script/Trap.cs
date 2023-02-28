@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
-    [SerializeField] COLORSTATE trapColor; // TODO : µ¥ÀÌÅÍ »©±â
+    [SerializeField] COLORSTATE trapColor;
     public COLORSTATE TrapColor { get { return trapColor; } set { trapColor = value; } }
 
-    [SerializeField] int bonusValue; // TODO : µ¥ÀÌÅÍ »©±â
+    [SerializeField] int bonusValue;
     public int BonusValue { get { return bonusValue; } set { bonusValue = value; } }
 
     void OnTriggerEnter(Collider other)
@@ -15,12 +15,13 @@ public class Trap : MonoBehaviour
         if (other.tag.Equals("Ball") && trapColor != BallController.Instance.BallColor)
         {
             other.GetComponent<Ball>().DeActivate(true);
+
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if(other.tag.Equals("Ball"))
+        if(other.tag.Equals("Ball") && transform.position.y < other.GetComponent<Ball>().CreatePositionY)
         {
             BallController.Instance.CreateBall(BonusValue, other.transform);
         }

@@ -7,25 +7,19 @@ public class GameManager : SingletonBehaviour<GameManager>
     [SerializeField] int nowStage;
     public int NowStage { get { return nowStage; } set { nowStage = value; } }
     
-    Queue<Box> boxList = new Queue<Box>();
-    [SerializeField] Box[] box;
+    public Queue<Box> boxList = new Queue<Box>();
+
     [SerializeField] Box nowBox;
     public Box NowBox { get { return nowBox; } set { nowBox = value; } }
 
-    void Start()
+    void Awake()
     {
-        Initialize();
+
     }
 
     public void Initialize()
     {
-        NowStage = 0;
 
-        for (int i = 0; i < box.Length; i++)
-        {
-            boxList.Enqueue(box[i]);
-        }
-        nowBox = boxList.Dequeue();
     }
 
     void Update()
