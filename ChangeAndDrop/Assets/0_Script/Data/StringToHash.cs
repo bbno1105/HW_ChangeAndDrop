@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class AnimString
 {
-    public static readonly int Check = Animator.StringToHash("Check");
+    public static readonly int Count = Animator.StringToHash("Count");
     public static readonly int IsCheckBox = Animator.StringToHash("IsCheckBox");
     public static readonly int IsClear = Animator.StringToHash("IsClear");
     public static readonly int IsStart = Animator.StringToHash("IsStart");

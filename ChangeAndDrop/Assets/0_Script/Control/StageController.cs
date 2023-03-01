@@ -34,14 +34,14 @@ public class StageController : MonoBehaviour
         {
             StartBallCount = nowStageData.Startballcount;
             ClearCount = nowStageData.Clearcount;
-            SettingMapData(nowStageData.Maplist);
+            SettingMapData(nowStageData);
 
             BallController.Instance.BallCount = nowStageData.Startballcount;
             GameManager.Instance.NextBox();
         }
     }
 
-    void SettingMapData(int[] _mapList)
+    void SettingMapData(StageSheetData _stageData)
     {
         Vector3 mapPosition = Vector3.zero;
 
@@ -51,13 +51,14 @@ public class StageController : MonoBehaviour
         mapPosition = new Vector3(mapPosition.x, mapPosition.y - 2, mapPosition.z);
 
         // ¸Ê
-        foreach (int data in _mapList)
+        foreach (int data in _stageData.Maplist)
         {
             SettingMap(data, ref mapPosition);
         }
 
         // ÇÇ´Ï½¬
         GameObject finishMap = Instantiate(mapFinishPrefab, mapPosition, Quaternion.identity, mapParent);
+        finishMap.GetComponentInChildren<Box>().CheckCount = _stageData.Clearcount;
         GameManager.Instance.boxList.Enqueue(finishMap.GetComponentInChildren<Box>());
     }
 

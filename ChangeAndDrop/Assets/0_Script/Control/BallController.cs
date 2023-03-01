@@ -12,6 +12,7 @@ public class BallController : SingletonBehaviour<BallController>
 
     // Object Pooling
     [SerializeField] List<Ball> ballPool;
+    public List<Ball> BallPool { get { return ballPool; } }
     Queue<Ball> ballPooling = new Queue<Ball>();
 
     // Ball State

@@ -33,7 +33,7 @@ public class CheckBlock : MonoBehaviour
         if(other.tag.Equals("Ball"))
         {
             ballCount++;
-            animator.SetFloat(AnimString.Check, (float)ballCount/checkCount);
+            animator.SetFloat(AnimString.Count, (float)ballCount/checkCount);
             if(ballCount >= checkCount && BallController.Instance.BallCount >= checkCount)
             {
                 animator.SetBool(AnimString.IsClear, true);

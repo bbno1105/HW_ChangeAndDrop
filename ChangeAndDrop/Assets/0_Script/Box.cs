@@ -56,11 +56,10 @@ public class Box : MonoBehaviour
                 {
                     ballCount++;
                     other.tag = "CheckedBall";
+                    PlayerController.Instance.PlayerState = PLAYERSTATE.CHECK;
 
                     other.GetComponent<Ball>().DeActivate();
-                    animator.SetFloat(AnimString.Check, (float)ballCount / checkCount);
-
-                    UnityEngine.Debug.Log("CheckBallCount : " + ballCount + " / " + BallController.Instance.BallCount);
+                    animator.SetFloat("Count", (float)ballCount / checkCount);
 
                     if (ballCount > checkCount && ballCount == BallController.Instance.BallCount)
                     {
@@ -71,12 +70,12 @@ public class Box : MonoBehaviour
 
             case BOXSTATE.FINISH:
                 if (other.tag.Equals("Ball"))
-                { 
+                {
                     ballCount++;
                     other.tag = "CheckedBall";
+                    PlayerController.Instance.PlayerState = PLAYERSTATE.CHECK;
 
-                    animator.SetFloat(AnimString.Check, (float)ballCount / checkCount);
-                
+                    animator.SetFloat(AnimString.Count, (float)ballCount / checkCount);
                     if (ballCount > checkCount)
                     {
                         animator.SetBool(AnimString.IsFinish, true);
@@ -84,6 +83,7 @@ public class Box : MonoBehaviour
 
                         if(ballCount == BallController.Instance.BallCount)
                         {
+                            StopCoroutine(FinishEffet());
                             StartCoroutine(FinishEffet());
                         }
                     }
@@ -107,18 +107,25 @@ public class Box : MonoBehaviour
 
     public void StartBall() // Animation Event
     {
+        PlayerController.Instance.PlayerState = PLAYERSTATE.INGAME;
+        Camera.main.GetComponent<CameraController>().StartCameraMove();
         BallController.Instance.CreateBall(BallController.Instance.BallCount, transform.position);
     }
 
-    public void NextBox()
+    public void SetStartBox() // Animation Event
     {
         boxState = BOXSTATE.START;
+        PlayerController.Instance.PlayerState = PLAYERSTATE.IDLE;
+    }
+
+    public void NextBox() // Animation Event
+    {
         GameManager.Instance.NextBox();
     }
 
     IEnumerator FinishEffet()
     {
         yield return new WaitForSecondsRealtime(4);
-        PlayerController.Instance.SetEnd();
+        BallController.Instance.PopBall();
     }
 }

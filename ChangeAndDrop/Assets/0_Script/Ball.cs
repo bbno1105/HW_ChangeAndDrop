@@ -133,6 +133,6 @@ public class Ball : MonoBehaviour
     public void PopBall()
     {
         collider.isTrigger = true;
-        rigidbody.velocity = new Vector3(Random.Range(-2, 2), Random.Range(6, 12), Random.Range(-2f, 0f));
+        rigidbody.velocity = new Vector3(Random.Range(-2f, 2f), Random.Range(6f, 12f), Random.Range(-2f, 1f));
     }
 }

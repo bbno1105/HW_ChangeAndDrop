@@ -4,10 +4,11 @@ using UnityEngine;
 
 public enum PLAYERSTATE
 {
-    IDLE = 0,
+    NONE = 0,
+    IDLE,
     READY,
     INGAME,
-    End
+    CHECK
 }
 
 public enum COLORSTATE

@@ -31,7 +31,6 @@ public class GameManager : SingletonBehaviour<GameManager>
     {
         if (boxList.Count <= 0) return false;
         nowBox = boxList.Dequeue();
-        PlayerController.Instance.Initialize();
         return true;
     }
 }
